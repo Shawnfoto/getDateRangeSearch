@@ -1,0 +1,111 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>jQuery UI Datepicker - Default functionality</title>
+  <link rel="stylesheet" href="./jquery-ui.css">
+  <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="./datepicker-zh-CN.js"></script>
+  <script>
+  $(function(){
+
+    var today = new Date();
+    var StartYear = new Date().getFullYear();
+    var NowMonth = new Date().getMonth()+1;
+    var NowDay = new Date().getDate();
+    var TwoMonthAgo = new Date(""+StartYear+"-"+(NowMonth-2)+"-"+NowDay+"");
+
+
+
+ 
+
+    $("#StartDate").datepicker({
+
+      dateFormat: "yy-mm-dd",
+      minDate:xx,
+      maxDate:today,
+      changeMonth: true,
+      changeYear: true,
+      onSelect: function(dateText,dateText2) {
+      $("#EndDate").datepicker("option", "minDate", dateText);
+      }
+
+    }).datepicker('setDate', TwoMonthAgo);
+
+
+    $("#EndDate").datepicker({
+
+      dateFormat: "yy-mm-dd",
+      minDate:TwoMonthAgo,
+      maxDate:today,
+      changeMonth: true,
+      changeYear: true,
+      onSelect: function(dateText) {
+      $("#StartDate").datepicker("option", "maxDate", dateText);
+      }  
+
+    }).datepicker('setDate', today);
+
+      $("#List").datepicker({
+        dateFormat: "yy-mm-dd",
+        maxDate:today,
+        changeMonth: true,
+        changeYear: true
+
+    }).datepicker('setDate', today);
+
+
+ 
+ 
+
+
+  });
+
+  function btnCount_Click(){
+    var b_date = $("#StartDate").val();
+    var e_date = $("#EndDate").val();
+    var DateListVal = $("#List").val();
+
+    var now = new Date();
+    var todayAtMidn = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+   var DateList = new Date(DateListVal); //此日期是否範圍內
+   console.log(todayAtMidn);
+    console.log(DateList);
+    // 搜索範圍
+    var startDate = new Date(""+b_date+"T00:00:00Z");
+    var endDate = new Date(""+e_date+"T23:59:59Z");
+
+    if (DateList.getTime() >= startDate.getTime() && 
+        DateList.getTime() <= endDate.getTime()) {
+        document.write("Specified date is within this range.");
+    }
+    else {
+        document.write("Specified date is not in this range.");
+    }
+};
+  </script>
+</head>
+<body>
+ 
+
+
+<div>
+<label for="StartDate">From</label>
+<input type="text" id="StartDate" name="StartDate">
+
+<label for="EndDate">to</label>
+<input type="text" id="EndDate" name="EndDate">
+</div>
+<label for="List">Please input</label>
+<input type="text" id="List" name="List">
+
+<button onclick="btnCount_Click()">Search</button>
+
+
+
+ 
+</body>
+</html>
